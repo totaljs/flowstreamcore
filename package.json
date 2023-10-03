@@ -11,7 +11,7 @@
     "url": "git+https://github.com/totaljs/flowstreamcore.git"
   },
   "dependencies": {
-    "total4": "latest",
+    "total4": "latest"
   },
   "keywords": [
     "flow",
