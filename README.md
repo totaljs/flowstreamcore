@@ -1,0 +1,2 @@
+# flowstreamcore
+NPM module
