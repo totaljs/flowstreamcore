@@ -1,0 +1,26 @@
+{
+  "name": "flowstream",
+  "version": "31.0.0",
+  "description": "FlowStream core",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/totaljs/flowstreamcore.git"
+  },
+  "dependencies": {
+    "total4": "latest",
+  },
+  "keywords": [
+    "flow",
+    "module"
+  ],
+  "author": "Peter Sirka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/totaljs/flowstreamcore/issues"
+  },
+  "homepage": "https://github.com/totaljs/flowstreamcore#readme"
+}
