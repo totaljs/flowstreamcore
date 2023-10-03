@@ -6,9 +6,6 @@ const DB_FILE = 'database.json';
 const DIRECTORY = CONF.directory || PATH.root('flowstream');
 const PING = { TYPE: 'ping' };
 
-PATH.mkdir(DIRECTORY);
-PATH.mkdir(PATH.private());
-
 var saveid = null;
 var FS = exports;
 
@@ -60,6 +57,36 @@ FS.reload = function(flow, restart) {
 	instance.restart(data, restart);
 };
 
+FS.init = function(directory) {
+
+	PATH.fs.readdir(directory, function(err, files) {
+
+		var load = [];
+
+		for (var m of files) {
+			var index = m.lastIndexOf('.');
+			if (index !== -1 && m.substring(index).toLowerCase() === '.flow')
+				load.push(m);
+		}
+
+		load.wait(function(filename, next) {
+
+			PATH.fs.readFile(PATH.join(directory, filename), 'utf8', function(err, response) {
+
+				if (response) {
+					response = response.parseJSON();
+					FS.load(response);
+				}
+
+				next();
+			});
+
+		});
+
+	});
+
+};
+
 FS.load = function(flow, callback) {
 
 	// flow.directory {String}
@@ -68,8 +95,9 @@ FS.load = function(flow, callback) {
 	// flow.memory {Number}
 	// flow.proxypath {String}
 
+	var id = flow.id;
 	flow.directory = flow.directory || PATH.root('/flowstream/');
-	FS.db[flow.id] = flow;
+	FS.db[id] = flow;
 	flow.worker && initping();
 
 	FlowStream.init(flow, flow.worker, function(err, instance) {
@@ -85,7 +113,7 @@ FS.load = function(flow, callback) {
 		}
 
 		instance.httprouting();
-		instance.ondone = () => callback();
+		instance.ondone = callback;
 		instance.onerror = FS.internal.error;
 
 		instance.onsave = function(data) {
