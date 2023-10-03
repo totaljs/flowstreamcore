@@ -59,6 +59,9 @@ FS.reload = function(flow, restart) {
 
 FS.init = function(directory) {
 
+	if (!directory)
+		directory = PATH.root('flowstreams');
+
 	PATH.fs.readdir(directory, function(err, files) {
 
 		var load = [];
